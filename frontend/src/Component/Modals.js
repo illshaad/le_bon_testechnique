@@ -1,7 +1,9 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Modal from '@material-ui/core/Modal';
 import axios from 'axios'
+
 
 export default class SimpleModal extends React.Component {
     constructor(props){ 
@@ -36,13 +38,12 @@ export default class SimpleModal extends React.Component {
     };
 
     handleSubmit = () => {
-      const { name, type, price, rating, years } = this.state
-      const sendData = { name: name , type: type , price: price , rating: rating , years: years } 
+      const {name, type, price, rating, years } = this.state
+      const sendData = {name: name , type: type , price: price , rating: rating , years: years } 
       axios
       .post("http://localhost:3000/product" , sendData )
       .then(response => {
         console.log(response , 'data send');
-        
       })
       .catch(error => console.log(error));
     }
@@ -50,17 +51,17 @@ export default class SimpleModal extends React.Component {
     render() {
         const { name, type, price, rating, years, available , showModal } = this.state
         return (
-        <div>
-          <button type="button" onClick={this.handleOpen}>
+        <div style={style.open}>
+          <Button type="button" onClick={this.handleOpen}>
            Création nouveau produit
-          </button>
-          <Modal
+          </Button>
+          <Modal style = {{width : 500}}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
             open={showModal}
             >
             <div>
-              <form noValidate autoComplete="off">
+              <form style={style.modal} noValidate autoComplete="off">
               <TextField
                 name='name'
                 id="standard-name"
@@ -84,9 +85,6 @@ export default class SimpleModal extends React.Component {
               value={price}
               onChange={this.handleChange}
               type="number"
-              InputLabelProps={{
-              shrink: true,
-              }}
               margin="normal"
               />
               <TextField
@@ -96,9 +94,6 @@ export default class SimpleModal extends React.Component {
               value={rating}
               onChange={this.handleChange}
               type="number"
-              InputLabelProps={{
-              shrink: true,
-              }}
               margin="normal"
               />
               <TextField
@@ -108,15 +103,13 @@ export default class SimpleModal extends React.Component {
               value={years}
               onChange={this.handleChange}
               type="number"
-              InputLabelProps={{
-              shrink: true,
-              }}
               margin="normal"
               />
               </form>
-              <button onClick = {this.handleClose}>X</button>
-              <button onClick = {this.handleSubmit}>Send</button>
-              <SimpleModal />
+              <div style = {style.button}>
+                <Button size="large" color="secondary"  onClick = {this.handleClose}>Close</Button>
+                <Button size="large" color="primary" onClick = {this.handleSubmit}>Send</Button>
+              </div>
             </div>
           </Modal>
         </div>
@@ -125,3 +118,34 @@ export default class SimpleModal extends React.Component {
         }        
     }
   
+    const style = {
+
+    open : {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'black',
+    },
+
+    button: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'black',
+      marginLeft: '500px',
+      width : '108%'
+    },
+      modal: {
+        display : 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        height : '300px',
+        width: '100%',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        paddingBottom: '20px',
+        marginLeft: '500px',
+        marginTop: '100px',
+        },
+    }

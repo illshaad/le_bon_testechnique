@@ -23,14 +23,6 @@ import axios from "axios";
       .catch(error => console.log(error));
     }
 
-    addNew = () => {
-      console.log('add car');
-      const newCards = [...this.state.dataFetch];
-      this.setState({
-        dataFetch : newCards
-      })
-    }
-
   render() {
     console.log(this.state.dataFetch , 'mon state');
     const CardList = this.state.dataFetch.map((data , i ) => {
@@ -49,8 +41,8 @@ import axios from "axios";
     })
     return(
       <div className='app'>
-        {CardList}
         <Modals/>
+        {CardList}
       </div>
     )
   }

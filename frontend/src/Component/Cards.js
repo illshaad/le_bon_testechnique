@@ -17,24 +17,26 @@ export default class Cards extends React.Component {
         }
     } 
 
-    handleDelete =  (id) => {
+    handleDelete = (id) => {
        axios
       .delete(`http://localhost:3000/product/:${id}`)
       .then(response => {
         console.log(response,'delete product');
-        
       })
       .catch(error => console.log(error));
     }
 
-    handleClick = (event) => {  // switch the value of the showModal state
-      this.setState({
-        showModal: !this.state.showModal
-      });
-    }
+    //envoie update MongoDB
+    handleModify = (id) => {
+      axios
+     .put(`http://localhost:3000/product/:${id}`)
+     .then(response => {
+       console.log(response,'Modif product');
+     })
+     .catch(error => console.log(error));
+   }
 
     getComponent = () =>  {
-      const { id, name, type, price, years, rating } = this.props
       console.log('state',this.state)
       if (this.state.showModal) {  // show the modal if state showModal is true
         return <Modals />
@@ -46,30 +48,31 @@ export default class Cards extends React.Component {
     render() {
       console.log('props', this.props)
         return (
-            <Card>
+            <Card style={style.card}>
               <CardActionArea>
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
+                  <Typography gutterBottom variant="h5"  component="h2">
                     Model : {this.props.name}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
+                  <Typography variant="body2" color="inherit" component="p">
                    Type : {this.props.type}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
+                  <Typography variant="body2" color="inherit" component="p">
                   Price : {this.props.price} euros
                   </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
+                  <Typography variant="body2" color="inherit" component="p">
                   Note : {this.props.rating}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
+                  <Typography variant="body2" color="inherit" component="p">
                    Garantie : {this.props.years}
                   </Typography>
                 </CardContent>
               </CardActionArea>
               <CardActions>
-                <Button size="small" color="primary" onClick={this.handleClick} label="Modifier"/>
-                  {this.getComponent}
-                <Button size="small" color="primary" onClick={()=>this.handleDelete(this.props.id)}>
+                <Button size="small" color="primary" onClick={()=> this.getComponent()} >
+                  Modifier
+                </Button>
+                <Button size="small" color="secondary" onClick={()=>this.handleDelete(this.props.id)}>
                   Supprimer
                 </Button>
               </CardActions>
@@ -78,3 +81,13 @@ export default class Cards extends React.Component {
         }        
     }
   
+    const style = ({
+      card: {
+        maxWidth: '500px',
+        marginBottom : '20px',
+        marginTop : '20px',
+        marginLeft : '500px',
+        backgroundColor : 'rgb(27, 33, 80)',
+        color : 'white'
+      },
+    });

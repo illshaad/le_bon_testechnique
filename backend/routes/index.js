@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 const productModel = require('../model/product')
 
-router.get('/products', function(req, res, next) {
+
+router.get('/products', function(req, res) {
   productModel.find()
   .then(product => {
     res.send(product);
@@ -13,8 +14,7 @@ router.get('/products', function(req, res, next) {
 });
 })
 
-router.post("/product", function(req, res, next) {
-  console.log("test", req.body);
+router.post("/product", function(req, res) {
   var product = new productModel({
     name: req.body.name,
     type: req.body.type,
@@ -32,8 +32,22 @@ router.post("/product", function(req, res, next) {
   });
 });
 
-router.get('/product/:id',function(req,res){
-  productModel.findOne({_id : req.params.id}, function(err,product){
+router.delete('/product/:id', function(req,res){
+  var id = req.params.id;
+  productModel.findOneAndDelete(id , function(err){
+    if(err){
+      console.log('erro delete');
+      console.log(err);
+    }else{
+        console.log('delete mongoDb'+ id);
+        res.send({message : 'message delete'})
+      }
+    })
+})
+
+router.get('product/:id',function(req,res){
+  var id = req.params.id;
+  productModel.findOne(id, function(product){
     if(err){
       res.send(err)
     }
@@ -41,21 +55,10 @@ router.get('/product/:id',function(req,res){
   })
 })
 
-router.delete('/product/:id', function(req,res){
-  productModel.remove({_id : req.params.id},function(err, data){
-    if(err){
-      res.send(err)
-    }
-    console.log('deleteddddddddddddd')
-    res.send({ message : 'products delete'})
-    console.log('out of the function')
-  })
-})
 
-
-router.put("/product/:id", function(req, res, next) {
-  console.log("test", req.body);
-  productModel.findOne({_id : req.params.id}, function(err,product){
+router.put('/product/:id', function(req, res, next) {
+  var id = req.params.id;
+  productModel.findOne(id ,function(product){
     product.name = req.body.name,
     product.type = req.body.type,
     product.price = req.body.price,
@@ -63,11 +66,11 @@ router.put("/product/:id", function(req, res, next) {
     product.available = req.body.available
 })
   console.log("saveee");
-  product.save(function(err, data) {
+  productModel.save(function(err, data) {
     if(err){
       res.send(err)
     }
-    res.json({ result: true, data });
+    res.send({ message : 'product update' , data});
   });
 });
 
