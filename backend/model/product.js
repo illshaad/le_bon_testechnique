@@ -6,7 +6,7 @@ const productchema = mongoose.Schema({
     price: Number,
     rating: Number,
     warranty_years : Number,
-    available : Boolean
+    available : String,
   });
 
 // Création productchema //

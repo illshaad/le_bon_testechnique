@@ -26,24 +26,23 @@ export default class Cards extends React.Component {
       .catch(error => console.log(error));
     }
 
-    //envoie update MongoDB
-    handleModify = (id) => {
-      axios
-     .put(`http://localhost:3000/product/:${id}`)
-     .then(response => {
-       console.log(response,'Modif product');
-     })
-     .catch(error => console.log(error));
-   }
+  //   handleModify = (id) => {
+  //     axios
+  //    .put(`http://localhost:3000/product/:${id}`)
+  //    .then(response => {
+  //      console.log(response,'Modif product');
+  //    })
+  //    .catch(error => console.log(error));
+  //  }
 
-    getComponent = () =>  {
-      console.log('state',this.state)
-      if (this.state.showModal) {  // show the modal if state showModal is true
-        return <Modals />
-       } else {
-        return null;
-      }
-    }
+  //   getComponent = () =>  {
+  //     console.log('state',this.state)
+  //     if (this.state.showModal) {  // show the modal if state showModal is true
+  //       return <Modals />
+  //      } else {
+  //       return null;
+  //     }
+  //   }
  
     render() {
       console.log('props', this.props)
@@ -66,10 +65,13 @@ export default class Cards extends React.Component {
                   <Typography variant="body2" color="inherit" component="p">
                    Garantie : {this.props.years}
                   </Typography>
+                  <Typography variant="body2" color="inherit" component="p">
+                   Disponibilité : {this.props.available}
+                  </Typography>
                 </CardContent>
               </CardActionArea>
               <CardActions>
-                <Button size="small" color="primary" onClick={()=> this.getComponent()} >
+                <Button size="small" color="primary">
                   Modifier
                 </Button>
                 <Button size="small" color="secondary" onClick={()=>this.handleDelete(this.props.id)}>

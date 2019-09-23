@@ -3,6 +3,10 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Modal from '@material-ui/core/Modal';
 import axios from 'axios'
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 
 export default class SimpleModal extends React.Component {
@@ -14,10 +18,11 @@ export default class SimpleModal extends React.Component {
         price: '',
         rating : '',
         years : '',
-        available : false,
+        available: '',
         showModal : false,
-     }
+      }
     }
+
     handleChange = (e) => {
       e.preventDefault();
       this.setState({
@@ -38,8 +43,8 @@ export default class SimpleModal extends React.Component {
     };
 
     handleSubmit = () => {
-      const {name, type, price, rating, years } = this.state
-      const sendData = {name: name , type: type , price: price , rating: rating , years: years } 
+      const {name, type, price, rating, years , available } = this.state
+      const sendData = { name: name , type: type , price: price , rating: rating , years: years , available : available} 
       axios
       .post("http://localhost:3000/product" , sendData )
       .then(response => {
@@ -49,7 +54,7 @@ export default class SimpleModal extends React.Component {
     }
 
     render() {
-        const { name, type, price, rating, years, available , showModal } = this.state
+        const { name, type, price, rating, years, available, showModal } = this.state
         return (
         <div style={style.open}>
           <Button type="button" onClick={this.handleOpen}>
@@ -58,25 +63,24 @@ export default class SimpleModal extends React.Component {
           <Modal style = {{width : 500}}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
-            open={showModal}
-            >
+            open={showModal}>
             <div>
               <form style={style.modal} noValidate autoComplete="off">
               <TextField
-                name='name'
-                id="standard-name"
-                label="Model"
-                value={name}
-                onChange={this.handleChange}
-                margin="normal"
+              name='name'
+              id="standard-name"
+              label="Model"
+              value={name}
+              onChange={this.handleChange}
+              margin="normal"
               />
               <TextField
-                id="standard-name"
-                name='type'
-                label="type"
-                value={type}
-                onChange={this.handleChange}
-                margin="normal"
+              id="standard-name"
+              name='type'
+              label="type"
+              value={type}
+              onChange={this.handleChange}
+              margin="normal"
               />
               <TextField
               id="standard-number"
@@ -105,6 +109,20 @@ export default class SimpleModal extends React.Component {
               type="number"
               margin="normal"
               />
+              <FormControl>
+              <InputLabel htmlFor="available">Disponibilité</InputLabel>
+                <Select
+                  value={available}
+                  onChange={this.handleChange}
+                  inputProps={{
+                   name: 'available',
+                   id: 'available',
+                  }}
+                    >
+                  <MenuItem value='Oui'>Oui</MenuItem>
+                  <MenuItem value='Non'>Non</MenuItem>
+                </Select>
+              </FormControl>
               </form>
               <div style = {style.button}>
                 <Button size="large" color="secondary"  onClick = {this.handleClose}>Close</Button>
@@ -113,13 +131,12 @@ export default class SimpleModal extends React.Component {
             </div>
           </Modal>
         </div>
-        
           );
         }        
-    }
+      }
   
-    const style = {
 
+    const style = {
     open : {
     display: 'flex',
     alignItems: 'center',

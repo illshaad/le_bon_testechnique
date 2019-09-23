@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const productModel = require('../model/product')
 
-
 router.get('/products', function(req, res) {
   productModel.find()
   .then(product => {
@@ -45,32 +44,24 @@ router.delete('/product/:id', function(req,res){
     })
 })
 
-router.get('product/:id',function(req,res){
-  var id = req.params.id;
-  productModel.findOne(id, function(product){
-    if(err){
-      res.send(err)
-    }
-    res.send(product)
-  })
-})
-
 
 router.put('/product/:id', function(req, res, next) {
-  var id = req.params.id;
-  productModel.findOne(id ,function(product){
-    product.name = req.body.name,
-    product.type = req.body.type,
-    product.price = req.body.price,
-    product.rating = req.body.rating,
-    product.available = req.body.available
-})
-  console.log("saveee");
-  productModel.save(function(err, data) {
+  let product = {};
+  product.name = req.body.name,
+  product.type = req.body.type,
+  product.price = req.body.price,
+  product.rating = req.body.rating,
+  product.available = req.body.available
+
+  let id = {_id : req.params.id }
+  productModel.update(id,product,function(err) {
     if(err){
-      res.send(err)
-    }
-    res.send({ message : 'product update' , data});
+      console.log('erro delete');
+      console.log(err);
+    }else{
+        console.log('delete mongoDb'+ id);
+        res.send({message : 'message update'})
+      }
   });
 });
 

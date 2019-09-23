@@ -8,6 +8,8 @@ var cors = require('cors')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var inscriptionRouter = require('./routes/inscription');
+var connexionRouter = require('./routes/connection');
 
 var app = express();
 
@@ -23,6 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/inscription', inscriptionRouter);
+app.use('/connexion', connexionRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
