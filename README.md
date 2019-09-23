@@ -23,7 +23,7 @@
 
 Lecture du projet :
 
-- Git clone repository lebonartisant ;
-- CD lebonartisant ;
+- Git clone repository le_bon_testechnique ;
+- CD le_bon_testechnique ;
 - CD frontend npm install et faire un npm start pour lancer le frontend;
 - CD backend npm install et faire un npm start pour lancer le backend;
